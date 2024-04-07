@@ -10,5 +10,6 @@
   ],
   "include": [
     "src/**/*.d.ts"
-  ]
+  ],
+  "typeRoots": ["node_modules/@angular/material"]
 }
