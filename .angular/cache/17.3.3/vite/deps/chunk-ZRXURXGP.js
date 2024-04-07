@@ -1,7 +1,7 @@
 import {
   DOCUMENT,
   isPlatformBrowser
-} from "./chunk-NSZEUKN3.js";
+} from "./chunk-NQZZMVXY.js";
 import {
   ANIMATION_MODULE_TYPE,
   APP_ID,
@@ -83,6 +83,23 @@ import {
   __spreadProps,
   __spreadValues
 } from "./chunk-QOHD3WUR.js";
+
+// node_modules/@angular/cdk/fesm2022/coercion.mjs
+function coerceBooleanProperty(value) {
+  return value != null && `${value}` !== "false";
+}
+function coerceNumberProperty(value, fallbackValue = 0) {
+  return _isNumberValue(value) ? Number(value) : fallbackValue;
+}
+function _isNumberValue(value) {
+  return !isNaN(parseFloat(value)) && !isNaN(Number(value));
+}
+function coerceArray(value) {
+  return Array.isArray(value) ? value : [value];
+}
+function coerceElement(elementOrRef) {
+  return elementOrRef instanceof ElementRef ? elementOrRef.nativeElement : elementOrRef;
+}
 
 // node_modules/@angular/cdk/fesm2022/platform.mjs
 var hasV8BreakIterator;
@@ -278,23 +295,6 @@ function hasModifierKey(event, ...modifiers) {
     return modifiers.some((modifier) => event[modifier]);
   }
   return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
-}
-
-// node_modules/@angular/cdk/fesm2022/coercion.mjs
-function coerceBooleanProperty(value) {
-  return value != null && `${value}` !== "false";
-}
-function coerceNumberProperty(value, fallbackValue = 0) {
-  return _isNumberValue(value) ? Number(value) : fallbackValue;
-}
-function _isNumberValue(value) {
-  return !isNaN(parseFloat(value)) && !isNaN(Number(value));
-}
-function coerceArray(value) {
-  return Array.isArray(value) ? value : [value];
-}
-function coerceElement(elementOrRef) {
-  return elementOrRef instanceof ElementRef ? elementOrRef.nativeElement : elementOrRef;
 }
 
 // node_modules/@angular/cdk/fesm2022/observers.mjs
@@ -4896,15 +4896,15 @@ var _MatInternalFormField = __MatInternalFormField;
 })();
 
 export {
+  coerceBooleanProperty,
+  coerceNumberProperty,
+  coerceElement,
   Platform,
   getSupportedInputTypes,
   normalizePassiveListenerOptions,
   ENTER,
   SPACE,
   hasModifierKey,
-  coerceBooleanProperty,
-  coerceNumberProperty,
-  coerceElement,
   ObserversModule,
   FocusKeyManager,
   FocusMonitor,
@@ -4915,4 +4915,4 @@ export {
   MatRippleModule,
   MatRippleLoader
 };
-//# sourceMappingURL=chunk-LZ4VCTFD.js.map
+//# sourceMappingURL=chunk-ZRXURXGP.js.map
