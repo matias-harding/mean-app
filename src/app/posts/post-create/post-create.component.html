@@ -1,14 +1,30 @@
 <mat-card>
-  <mat-form-field>
-    <mat-label>Title</mat-label>
-    <input matInput type="text" [(ngModel)]="postTitle" />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Content</mat-label>
-    <textarea matInput [(ngModel)]="postContent" rows="6" ></textarea>
-  </mat-form-field>
-  <button 
-    mat-raised-button
-    color="primary"
-    (click)="onSave()">Save</button>
+  <form (submit)="onSave(postForm)" #postForm="ngForm">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input 
+        matInput 
+        type="text" 
+        name="title"
+        ngModel
+        required
+        #title="ngModel">
+        <mat-error *ngIf="title.invalid">Title can't be blank</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Content</mat-label>
+      <textarea 
+        matInput
+        name="content"
+        rows="6"
+        ngModel
+        required
+        #content="ngModel"></textarea>
+      <mat-error *ngIf="content.invalid">Content can't be blank</mat-error>
+    </mat-form-field>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      type="submit">Save</button>
+  </form>
 </mat-card>

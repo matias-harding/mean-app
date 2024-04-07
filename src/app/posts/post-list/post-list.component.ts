@@ -1,37 +1,31 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs'; 
+
+import { PostsService } from '../../services/posts.service'
+
+import { Post } from '../post.model'
 
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.scss'
 })
-export class PostListComponent {
+export class PostListComponent implements OnInit, OnDestroy {
+  posts: Post[]=[]
+  private postsSub: Subscription
 
-  title = ''
-  content = ''
+  constructor(public postsService: PostsService) { }
 
-  // posts = [
-  //   {
-  //     "title": "Unforgettable Evening",
-  //     "content": "The ambiance was perfect for our anniversary dinner. The staff went above and beyond, making us feel special. Every dish was a delight, especially the seared scallops."
-  //   },
-  //   {
-  //     "title": "Family Friendly and Delicious",
-  //     "content": "Took the kids on Saturday and had a great time. The menu has something for everyone, and the kids' play area is a godsend. The pizza was a hit with the little ones!"
-  //   },
-  //   {
-  //     "title": "Best Brunch in Town",
-  //     "content": "Sunday brunch here is a must-try! The French toast with fresh berries is my go-to, and their coffee is simply the best. Cozy atmosphere and friendly service always."
-  //   },
-  //   {
-  //     "title": "Exquisite Vegetarian Options",
-  //     "content": "As a vegetarian, it's often hard to find a variety of options, but this place is a gem. The vegetarian lasagna was rich in flavor, and the garden salad was fresh and crisp."
-  //   },
-  //   {
-  //     "title": "A Disappointing Experience",
-  //     "content": "Unfortunately, our visit didn't meet expectations. The service was slow, and my steak was overcooked. However, the manager was understanding and offered a complimentary dessert."
-  //   }
-  // ]
-  @Input() posts=[]
+  ngOnInit(): void {
+      this.posts = this.postsService.getPosts();
+      this.postsSub = this.postsService.getPostUpdateListener()
+        .subscribe((posts: Post[]) => {
+          this.posts = posts
+        })
+  }
+
+  ngOnDestroy(): void {
+      this.postsSub.unsubscribe()
+  }
   
 }
