@@ -34,9 +34,14 @@ export class PostsService {
     const minCeiled = Math.ceil(0);
     const maxFloored = Math.floor(100);
     const id = Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // Both max and min are inclusive
-  
     const post: Post = {id: id, title: title, content: content};
-    this.posts.push(post);
-    this.postsUpdated.next([...this.posts])
+
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/posts", post)
+      .subscribe(res => {
+        console.log(res.message)
+        this.posts.push(post);
+        this.postsUpdated.next([...this.posts])
+      })
   }
 }
