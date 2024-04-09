@@ -1,8 +1,23 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+require('dotenv').config()
 
+// Models
+const Post = require('./models/post')
+
+// Express
 const app = express()
 
+// Mongoose Connection
+mongoose.connect(process.env.MONGODB_CONNECTION)
+  .then(() => {
+    console.log('Connected to database')
+  })
+  .catch(() => {
+    console.log('Connection failed')
+  })
+  
 // Request body parser
 app.use(bodyParser.json())
 
