@@ -1,6 +1,7 @@
 // Posts service
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 import { Post } from '../posts/post.model';
 
@@ -8,12 +9,20 @@ import { Post } from '../posts/post.model';
 @Injectable({providedIn: 'root'})
 
 export class PostsService {
+  // Attributes
   private posts: Post[] = [];
   private postsUpdated = new Subject<Post[]>()
-  
+
+  // Constructor
+  constructor(private http: HttpClient) {}
+
+  // Methods and Functions
   getPosts() {
-    // Return an array without manipulating the original instance of this.posts
-    return [...this.posts];
+    this.http.get<{message: string, posts:Post[]}>('http://localhost:3000/api/posts')
+      .subscribe(res => {
+        this.posts = res.posts
+        this.postsUpdated.next([...this.posts])
+      })
   }
 
   getPostUpdateListener(){
@@ -21,7 +30,12 @@ export class PostsService {
   }
 
   addPost(title: string, content: string) {
-    const post: Post = {title: title, content: content};
+    // Random id 0-100
+    const minCeiled = Math.ceil(0);
+    const maxFloored = Math.floor(100);
+    const id = Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // Both max and min are inclusive
+  
+    const post: Post = {id: id, title: title, content: content};
     this.posts.push(post);
     this.postsUpdated.next([...this.posts])
   }
