@@ -1,6 +1,12 @@
 <mat-toolbar color="primary">
-  <span><a routerLink="/" style="color: white; text-decoration: none">MEAN App</a></span>
+  <span><a routerLink="/" >MEAN App</a></span>
+  <span class="spacer"></span>
   <ul>
-    <li><a routerLink="/create" style="color: white; text-decoration: none" >Posts</a></li>
+    <li>
+      <a 
+        mat-button 
+        routerLink="create" 
+        routerLinkActive="active-link">New Posts</a>
+    </li>
   </ul>
 </mat-toolbar>
