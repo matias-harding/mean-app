@@ -1,6 +1,7 @@
 // Posts service
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 import { Post } from '../posts/post.model';
@@ -18,9 +19,22 @@ export class PostsService {
 
   // Methods and Functions
   getPosts() {
-    this.http.get<{message: string, posts:Post[]}>('http://localhost:3000/api/posts')
-      .subscribe(res => {
-        this.posts = res.posts
+    this.http
+      .get<{message: string, posts: any}>('http://localhost:3000/api/posts')
+      .pipe(
+        // Map response to an array of posts with id, not _id
+        map(res => {
+          return res.posts.map(post => {
+            return {
+              title: post.title,
+              content: post.content,
+              id: post._id
+            }
+          })
+        })
+      )
+      .subscribe(modifiedPosts => {
+        this.posts = modifiedPosts
         this.postsUpdated.next([...this.posts])
       })
   }
