@@ -44,17 +44,23 @@ export class PostsService {
   }
 
   addPost(title: string, content: string) {
-    // Random id 0-100
-    const minCeiled = Math.ceil(0);
-    const maxFloored = Math.floor(100);
-    const id = Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // Both max and min are inclusive
-    const post: Post = {id: id, title: title, content: content};
+    const post: Post = {id: null, title: title, content: content};
 
     this.http
       .post<{ message: string }>("http://localhost:3000/api/posts", post)
       .subscribe(res => {
         console.log(res.message)
         this.posts.push(post);
+        this.postsUpdated.next([...this.posts])
+      })
+  }
+
+  deletePost(postId: string) {
+    this.http
+      .delete(`http://localhost:3000/api/posts/${postId}`)
+      .subscribe(() => {
+        console.log(`Post id: ${postId} Deleted!`)
+        this.posts = this.posts.filter(post => post.id !== postId)
         this.postsUpdated.next([...this.posts])
       })
   }
