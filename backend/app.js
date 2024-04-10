@@ -42,9 +42,11 @@ app.post('/api/posts',(req, res, next) => {
     title: req.body.title,
     content: req.body.content
   })
-  post.save()
-  res.status(201).json({
-    message: 'Post added to database!'
+  post.save().then((newPost) => {
+    res.status(201).json({
+      message: 'Post added to database!',
+      postId: newPost._id
+    })
   })
 })
 
@@ -66,8 +68,9 @@ app.get('/api/posts',(req, res, next) => {
 })
 
 app.delete('/api/posts/:id', (req, res, next) => {
+  console.log('Atempting Delete of post id: ', req.params.id)
   Post.deleteOne({_id: req.params.id})
-    .then((res) => {
+    .then((deletedPost) => {
       console.log('Post deleted!')
       res.status(200).json({
         message: 'Post deleted!'
